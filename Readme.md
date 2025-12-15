@@ -5,6 +5,8 @@ clone repositoried fra git med denne lenken
 https://github.com/Nyllooc/Echomedic-GRC-Dashboard.git
 
 # 2 Sette opp mongoDb:
+### Vikig ikke bruk vpn under prossessen mongo db bruker ip adresse for å passe på at ikke uønskede brukere kommer på
+
 gå til https://www.mongodb.com/ og trykk på get started for å lage en bruker
 
 under oppstart vil du bli promtet til å lage en cluster da for å starte, ellers må du trykke på create cluster.
@@ -31,7 +33,7 @@ gå in i server mappen i prosjektet og lag en fil som heter .env
 
 i env filen putter du:
 
-MONGODB_URL= connection string fra mongodb DIN STRING
+MONGODB_URL=mongodb+srv://username:<db_password>@cluster0.bummjrs.mongodb.net/?appName=Cluster0 (MÅ ENDRES TIL EGEN STRENG)
 
 hvis du vil endre navnet på db kan du gjøre det i starten av server.ts filen
 med å endre på
