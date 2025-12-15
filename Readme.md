@@ -33,7 +33,8 @@ gå in i server mappen i prosjektet og lag en fil som heter .env
 
 i env filen putter du:
 
-MONGODB_URL=mongodb+srv://username:<db_password>@cluster0.bummjrs.mongodb.net/?appName=Cluster0 (MÅ ENDRES TIL EGEN STRENG)
+MONGODB_URL=connection string fra mongodb DIN STRING
+mongodb+srv://username:<db_password>@cluster0.bummjrs.mongodb.net/?appName=Cluster0
 
 hvis du vil endre navnet på db kan du gjøre det i starten av server.ts filen
 med å endre på
