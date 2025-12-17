@@ -129,7 +129,21 @@ export function databaseApi(db: Db) {
     });
 
     router.post("/api/employee", async (req, res) => {
-        const data = req.body;
+
+        const data = {
+            id: req.body.id,
+            name:req.body.name,
+            email: req.body.email,
+            role: req.body.role,
+            department: req.body.department,
+            startDate: req.body.startDate,
+            progress: req.body.progress,
+            status: req.body.status,
+            avatarColor: req.body.avatarColor,
+            initials: req.body.initials,
+            checklist: req.body.checklist
+
+        }
 
         try {
             await db.collection(employeedata).updateOne(

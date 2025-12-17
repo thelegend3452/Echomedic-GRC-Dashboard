@@ -63,9 +63,26 @@ const Onboarding = () => {
         setIsModalOpen(false);
     };
 
-    const handleDeleteEmployee = (id) => {
-        setEmployees(prev => prev.filter(emp => emp.id !== id));
-        setSelectedEmployee(null);
+    const handleDeleteEmployee = async (id) => {
+        try {
+            const response = await fetch(`/api/employee/${id}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                setEmployees(prev => prev.filter(emp => emp.id !== id));
+                setSelectedEmployee(null);
+            } else if (response.status === 404) {
+                console.error("Employee not found on server.");
+                alert("Employee not found and could not be deleted.");
+            } else {
+                console.error("Error deleting employee from database.");
+                alert("Failed to delete employee.");
+            }
+        } catch (error) {
+            console.error("Network error during deletion:", error);
+            alert("Could not connect to the server to delete employee.");
+        }
     };
 
     const toggleCheckItem = async (itemId) => {
