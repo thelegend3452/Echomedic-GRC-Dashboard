@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 const SecurityPosture = () => {
-    // State to store the calculated counts
     const [riskStats, setRiskStats] = useState({
         apen: 0,
         pagar: 0,
@@ -70,7 +69,6 @@ const SecurityPosture = () => {
             <h2 className="security-posture-title">Oversikt over sikkerhetstilstand</h2>
             <div className="security-posture-container">
 
-                {/* RISIKOREGISTER CARD */}
                 <div className="posture-card device-monitoring">
                     <h3 className="card-title">RisikoRegister</h3>
                     <div className="status-list">

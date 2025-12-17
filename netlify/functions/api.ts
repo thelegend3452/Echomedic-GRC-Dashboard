@@ -107,7 +107,6 @@ router.delete("/risk/:id", async (req, res) => {
     }
 });
 
-// --- Employee Endpoints ---
 router.get("/employee", async (req, res) => {
     const db = await connectToDatabase();
     const data = await db.collection(employeedata).find({}).toArray();

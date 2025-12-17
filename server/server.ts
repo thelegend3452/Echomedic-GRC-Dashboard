@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-//Change to your db name
+// Bytte data til det du vil kalle den
 const databaseName = "Dashboard_Data"
 
 

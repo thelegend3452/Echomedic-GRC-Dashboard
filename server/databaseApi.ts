@@ -4,7 +4,6 @@ import { Db } from "mongodb";
 export function databaseApi(db: Db) {
     const router = express.Router();
 
-    // change to your database collection names
     const riskdata = "riskdata";
     const complianceData = "complianceData";
     const employeedata = "employeeData"
@@ -40,7 +39,7 @@ export function databaseApi(db: Db) {
     });
 
     router.delete("/api/compliance/:id", async (req, res) => {
-        const id = req.params.id; // Get ID from URL
+        const id = req.params.id;
 
         try {
             const result = await db.collection(complianceData).deleteOne({ id: id });
@@ -112,7 +111,7 @@ export function databaseApi(db: Db) {
     });
 
     router.delete("/api/risk/:id", async (req, res) => {
-        const id = req.params.id; // Get ID from URL
+        const id = req.params.id;
 
         try {
             const result = await db.collection(riskdata).deleteOne({ id: id });
@@ -165,7 +164,7 @@ export function databaseApi(db: Db) {
 
 
     router.delete("/api/employee/:id", async (req, res) => {
-        const id = req.params.id; // Get ID from URL
+        const id = req.params.id;
 
         try {
             const result = await db.collection(employeedata).deleteOne({ id: id });

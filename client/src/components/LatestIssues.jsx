@@ -1,5 +1,4 @@
 import React from 'react';
-//import isoData from '../data/iso.json';
 
 const IssueRow = ({type, title, time, level }) => {
     const getLevelClass = (l) => {
