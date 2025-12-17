@@ -13,7 +13,6 @@ import Onboarding from "./page/onboarding/Onboarding.jsx";
 import { Sjekkliste } from "./page/sjekkliste/Sjekkliste.js";
 import RisikoRegister from "./page/risiko/RisikoRegister.jsx";
 import Information from "./page/Information/Information.jsx";
-import LatestIssues2 from "./components/LatestIssues.jsx";
 
 
 
