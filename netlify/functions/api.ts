@@ -13,7 +13,13 @@ let cachedDb: Db | null = null;
 
 async function connectToDatabase() {
     if (cachedDb) return cachedDb;
-    const client = new MongoClient(process.env["MONGODB_URL"]!);
+
+    const uri = process.env["MONGODB_URL"];
+    if (!uri) {
+        throw new Error("MONGODB_URL is missing in environment variables");
+    }
+
+    const client = new MongoClient(uri);
     const connection = await client.connect();
     cachedDb = connection.db(databaseName);
     return cachedDb;
@@ -23,6 +29,10 @@ const router = Router();
 const riskdata = "riskdata";
 const complianceData = "complianceData";
 const employeedata = "employeeData";
+
+router.get("/health", (req, res) => {
+    res.json({ status: "ok", message: "API is running" });
+});
 
 router.get("/compliance", async (req, res) => {
     const db = await connectToDatabase();
@@ -67,7 +77,6 @@ router.get("/compliance/norman", async (req, res) => {
     res.json(data);
 });
 
-// --- Risk Endpoints ---
 router.get("/risk", async (req, res) => {
     const db = await connectToDatabase();
     const settlements = await db.collection(riskdata).find({}).toArray();
@@ -98,6 +107,7 @@ router.delete("/risk/:id", async (req, res) => {
     }
 });
 
+// --- Employee Endpoints ---
 router.get("/employee", async (req, res) => {
     const db = await connectToDatabase();
     const data = await db.collection(employeedata).find({}).toArray();
@@ -129,5 +139,15 @@ router.delete("/employee/:id", async (req, res) => {
 });
 
 app.use("/.netlify/functions/api", router);
+app.use("/api", router);
+app.use("/", router);
+
+app.use((req, res) => {
+    console.error(`Route not found: ${req.originalUrl}`);
+    res.status(404).json({
+        error: "Not Found",
+        route: req.originalUrl
+    });
+});
 
 export const handler = serverless(app);
