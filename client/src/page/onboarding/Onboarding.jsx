@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import './onboarding.css';
 import Modal from "./modal.jsx";
-import jsonData from '../../data/onboarding.json';
 import {CHECKLIST} from "../../data/ansatt.js";
 
 
@@ -17,10 +16,30 @@ const Onboarding = () => {
         }));
     };
 
-    const [employees, setEmployees] = useState(formatData(jsonData));
+    const [employees, setEmployees] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const response = await fetch("/api/employee");
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+
+                const data = await response.json();
+
+                setEmployees(formatData(data));
+            } catch (error) {
+                console.error("Error loading employees:", error);
+            }
+        };
+
+        fetchEmployees();
+    }, []);
 
     const filteredEmployees = employees.filter((emp) => {
         const query = searchQuery.toLowerCase();
@@ -49,7 +68,7 @@ const Onboarding = () => {
         setSelectedEmployee(null);
     };
 
-    const toggleCheckItem = (itemId) => {
+    const toggleCheckItem = async (itemId) => {
         if (!selectedEmployee) return;
 
         const updatedChecklist = selectedEmployee.checklist.map(item =>
@@ -74,6 +93,18 @@ const Onboarding = () => {
         setEmployees(prevEmployees =>
             prevEmployees.map(e => e.id === updatedEmployee.id ? updatedEmployee : e)
         );
+
+      try {
+            await fetch("/api/employee", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedEmployee),
+            });
+        } catch (error) {
+            console.error("Error updating checklist:", error);
+        }
     };
 
     return (

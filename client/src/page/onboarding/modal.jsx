@@ -17,7 +17,6 @@ const Modal = ({ isOpen, onClose, onSave }) => {
             setIsMounted(true);
             setTimeout(() => setShouldOpen(true), 10);
 
-            // Reset form
             setName("");
             setEmail("");
             setRole("");
@@ -33,7 +32,7 @@ const Modal = ({ isOpen, onClose, onSave }) => {
         }
     }, [isOpen]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const initials = name
@@ -57,8 +56,26 @@ const Modal = ({ isOpen, onClose, onSave }) => {
             checklist: CHECKLIST.map(item => ({ ...item }))
         };
 
-        onSave(newEmployee);
-        onClose();
+        try {
+            const response = await fetch("/api/employee", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newEmployee),
+            });
+
+            if (response.ok) {
+                onSave(newEmployee);
+                onClose();
+            } else {
+                console.error("Failed to save employee to database");
+                alert("Something went wrong saving the employee.");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            alert("Could not connect to the server.");
+        }
     };
 
     if (!isMounted) return null;

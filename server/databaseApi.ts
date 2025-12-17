@@ -7,6 +7,7 @@ export function databaseApi(db: Db) {
     // change to your database collection names
     const riskdata = "riskdata";
     const complianceData = "complianceData";
+    const employeedata = "employeeData"
 
     router.get("/api/compliance", async (req, res) => {
         const settlements = await db.collection(complianceData).find({}).toArray();
@@ -123,6 +124,45 @@ export function databaseApi(db: Db) {
             }
         } catch (error) {
             console.error("Error deleting risk:", error);
+            res.sendStatus(500);
+        }
+    });
+
+    router.post("/api/employee", async (req, res) => {
+        const data = req.body;
+
+        try {
+            await db.collection(employeedata).updateOne(
+                { id: data.id },
+                { $set: data },
+                { upsert: true }
+            );
+            res.sendStatus(200);
+        } catch (error) {
+            console.error("Error saving employee:", error);
+            res.sendStatus(500);
+        }
+    });
+
+    router.get("/api/employee", async (req, res) => {
+        const settlements = await db.collection(employeedata).find({}).toArray();
+        res.json(settlements);
+    });
+
+
+    router.delete("/api/employee/:id", async (req, res) => {
+        const id = req.params.id; // Get ID from URL
+
+        try {
+            const result = await db.collection(employeedata).deleteOne({ id: id });
+
+            if (result.deletedCount === 1) {
+                res.sendStatus(200);
+            } else {
+                res.status(404).send("Item not found");
+            }
+        } catch (error) {
+            console.error("Error deleting employee:", error);
             res.sendStatus(500);
         }
     });
