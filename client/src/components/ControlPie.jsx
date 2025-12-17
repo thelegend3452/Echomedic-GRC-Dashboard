@@ -61,7 +61,7 @@ const ControlPie = ({ total, completed, partial = 0, completion }) => {
                         iconType="circle"
                         iconSize={8}
                         wrapperStyle={{ right: 0 }}
-                        formatter={(value, entry) => (
+                        formatter={(value) => (
                             <span style={{
                                 color: '#4b5563',
                                 fontSize: '13px',
